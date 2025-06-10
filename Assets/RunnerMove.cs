@@ -14,18 +14,19 @@ public class RunnerMove : MonoBehaviour
     private bool isGround = false;
     private bool isJumping = false;
     private float jumpTimer;
+    Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
         isGround = Physics2D.OverlapCircle(feetPos.position, groundDistance, groundLayer);
-
+        animator.SetBool("isJumpinging", !isGround);
         if(isGround && Input.GetButtonDown("Jump"))
         {
             isJumping = true;
@@ -39,10 +40,12 @@ public class RunnerMove : MonoBehaviour
                 rb.velocity = Vector2.up * jumpForce;
 
                 jumpTimer += Time.deltaTime;
+                
             } 
             else
             {
                 isJumping = false;
+                
             }
         }
 
@@ -50,6 +53,14 @@ public class RunnerMove : MonoBehaviour
         {
             isJumping = false;
             jumpTimer = 0;
+            
         }
     }
+
+    private void FixedUpdate()
+    {
+        animator.SetFloat("yVelocity", rb.velocity.y);
+    }
+
+    
 }

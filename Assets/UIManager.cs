@@ -9,6 +9,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject startMenuUI;
     [SerializeField] private GameObject gameOverUI;
 
+    [SerializeField] private TextMeshProUGUI gameOverScoreUI;
+    [SerializeField] private TextMeshProUGUI gameOverHighScoreUI;
+
     GameManager gm;
     private void Start()
     {
@@ -25,6 +28,9 @@ public class UIManager : MonoBehaviour
     public void ActivateGameOverUI()
     {
         gameOverUI.SetActive(true);
+
+        gameOverScoreUI.text = "Score: " + gm.BetterScore();
+        gameOverHighScoreUI.text = "Score: " + gm.BetterhighScore();
     }
 
     private void OnGUI()

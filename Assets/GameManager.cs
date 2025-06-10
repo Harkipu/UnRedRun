@@ -18,11 +18,27 @@ public class GameManager : MonoBehaviour
 
     public float currentScore = 0f;
 
+    public Data data;
+
     public bool isPlaying = false;
 
     public UnityEvent onPlay = new UnityEvent();
 
     public UnityEvent onGameOver = new UnityEvent();
+
+    private void Start()
+    {
+        string loadedData = SaveLoad.Load("save");
+        if (loadedData != null)
+        {
+            data = JsonUtility.FromJson<Data>(loadedData);
+        }
+        else
+        {
+            data = new Data();
+        }
+    }
+
 
     private void Update()
     {
@@ -37,17 +53,29 @@ public class GameManager : MonoBehaviour
     {
         onPlay.Invoke();
         isPlaying = true;
+        currentScore = 0;
     }
 
     public void GameOver()
     {
+        
+        if (data.highscore < currentScore)
+        {
+            data.highscore = currentScore;
+            string saveString = JsonUtility.ToJson(data);
+            SaveLoad.Save("save", saveString);
+        }
         onGameOver.Invoke();
-        currentScore = 0;
         isPlaying = false;
     }
 
     public string BetterScore()
     {
         return Mathf.RoundToInt(currentScore).ToString();
+    }
+
+    public string BetterhighScore()
+    {
+        return Mathf.RoundToInt(data.highscore).ToString();
     }
 }
