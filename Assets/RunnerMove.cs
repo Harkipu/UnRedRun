@@ -32,7 +32,7 @@ public class RunnerMove : MonoBehaviour
             rb.velocity = Vector2.up * jumpForce;
         }
 
-        if(isGround && Input.GetButton("Jump"))
+        if(isJumping && Input.GetButton("Jump"))
         {
             if (jumpTimer < jumpTime)
             {
