@@ -15,11 +15,13 @@ public class RunnerMove : MonoBehaviour
     private bool isJumping = false;
     private float jumpTimer;
     Animator animator;
+    AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -31,6 +33,8 @@ public class RunnerMove : MonoBehaviour
         {
             isJumping = true;
             rb.velocity = Vector2.up * jumpForce;
+            audioSource.pitch = UnityEngine.Random.Range(0.9f,1.1f);
+            audioSource.Play();
         }
 
         if(isJumping && Input.GetButton("Jump"))
